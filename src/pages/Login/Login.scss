@@ -1,0 +1,32 @@
+body {
+  background-color: #adf0d1;
+}
+
+.login-form {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  gap: 2rem;
+  padding: 20px;
+  border: 1px solid transparent;
+  border-radius: 15px;
+  background-color: rgba(255, 255, 255, 0.4);
+
+  display: flex;
+  flex-direction: column;
+
+  & h3 {
+    margin: 0;
+    color: #00203f;
+  }
+  & p {
+    color: #00203f;
+  }
+}
+
+.login-buttons {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+}

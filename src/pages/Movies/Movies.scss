@@ -1,0 +1,73 @@
+.dashboard-wrapper {
+  height: 100vh;
+  margin: 0;
+  display: flex;
+  justify-content: flex-start;
+  flex-direction: column;
+  align-items: center;
+}
+.grid-page {
+  display: grid;
+  grid-template-columns: 25% 1fr;
+  width: 99%;
+  gap: 20px;
+}
+.login-header {
+  display: flex;
+  justify-content: flex-end;
+  width: 100%;
+  margin: 20px;
+
+  .name-wrapper {
+    width: 200px;
+    height: 40px;
+    background: white;
+    border-radius: 5px;
+
+    h3 {
+      margin: 6px auto;
+      width: 120px;
+    }
+  }
+
+  .custom-btn {
+    width: 100px;
+    height: 40px;
+    color: #fff;
+    border-radius: 5px;
+    padding: 10px 25px;
+    font-family: "Lato", sans-serif;
+    font-weight: 500;
+    background: transparent;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: inline-block;
+    box-shadow: inset 2px 2px 2px 0px rgba(255, 255, 255, 0.5),
+      7px 7px 20px 0px rgba(0, 0, 0, 0.1), 4px 4px 5px 0px rgba(0, 0, 0, 0.1);
+    outline: none;
+    margin: 0 20px;
+
+    &.btn-1 {
+      background: rgb(6, 14, 131);
+      background: linear-gradient(
+        0deg,
+        rgb(34 56 106) 0%,
+        rgb(124 53 174) 100%
+      );
+      border: none;
+
+      &:hover {
+        background: rgb(0, 3, 255);
+        background: linear-gradient(
+          0deg,
+          rgb(48 95 184) 0%,
+          rgb(229 80 227) 100%
+        );
+      }
+    }
+  }
+}
+.pagination {
+  margin: 10px;
+  float: right;
+}

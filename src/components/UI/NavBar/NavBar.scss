@@ -1,0 +1,29 @@
+a {
+  text-decoration: none;
+}
+
+.nav {
+  display: flex;
+  flex-direction: column;
+  padding: 1rem;
+  background-color: #ADF0D1;
+  gap: 1rem;
+
+  &-line {
+    &-first {
+      display: flex;
+      justify-content: flex-end;
+    }
+    &-second {
+      display: flex;
+      
+      & a {
+        margin-right: 1rem;
+      }
+    }
+  }
+}
+.search-form {
+  display: flex;
+  gap: 10px;
+}

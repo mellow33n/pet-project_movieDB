@@ -1,0 +1,30 @@
+body {
+  background-color: #adf0d1;
+}
+
+.reg-form {
+  margin: 2rem 0;
+  width: 30%;
+  gap: 2rem;
+  padding: 20px;
+  border: 1px solid transparent;
+  border-radius: 15px;
+  background-color: rgba(255, 255, 255, 0.4);
+
+  display: flex;
+  flex-direction: column;
+
+  & h3 {
+    margin: 0;
+    color: #00203f;
+  }
+  & p {
+    color: #00203f;
+  }
+}
+.parent {
+  display: flex;
+  align-items: center;
+  align-content: center;
+  justify-content: center;
+}
