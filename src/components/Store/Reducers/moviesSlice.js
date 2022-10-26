@@ -1,5 +1,17 @@
 import { createSlice } from "@reduxjs/toolkit"
-import { getMovies, getMoviesByPopular, getMoviesGenres, getMoviesBySearh, getSearchResults, getLanguages, getTvShow, getTvShowByPopular, getTvGenres } from "../../../api/moviedb";
+import {
+    getMovies,
+    getMoviesByPopular,
+    getMoviesGenres,
+    getMoviesBySearh,
+    getSearchResults,
+    getLanguages,
+    getTvShow,
+    getTvShowByPopular,
+    getTvGenres,
+    getMovieCardInfo,
+    getTvShowCardInfo
+} from "../../../api/moviedb";
 import { createAsyncThunk } from "@reduxjs/toolkit/";
 
 // movies
@@ -19,6 +31,10 @@ export const getMoviesPopFetch = createAsyncThunk('movies/getMoviesPopFetch', as
 });
 export const getMoviesGenresFetch = createAsyncThunk('movies/getMoviesGenresFetch', async () => {
     const data = await getMoviesGenres();
+    return data;
+});
+export const getMovieCardInfoFetch = createAsyncThunk('movies/getMovieCardInfoFetch', async (id) => {
+    const data = await getMovieCardInfo(id);
     return data;
 });
 
@@ -61,6 +77,7 @@ export const moviesDBSlice = createSlice({
             genres: [],
             fetchStrID: '',
             favoritesMovies: [],
+            movie_card: [],
         },
         tvShow_sect: {
             tvShow: [],
@@ -137,6 +154,17 @@ export const moviesDBSlice = createSlice({
             } else {
                 state.search_sect.favorites.movies.push(card);
             }
+            /* CARD-INFO */
+            if (card.id === state.movies_sect.movie_card.id) {
+                state.movies_sect.movie_card.isFavorites = !state.movies_sect.movie_card.isFavorites
+            }
+        },
+        isFavoritesCardMovie: (state, action) => {
+            const card = { ...action.payload };
+            card.isFavorites = 0;
+            // проверяю есть ли карточка в массиве избранных фильмов
+            state.movies_sect.favoritesMovies.map((value) => value.id === card.id ? card.isFavorites += 1 : card.isFavorites += 0);
+            console.log(card.isFavorites);
         },
         // tv shows
         addToFavoritesTvShows: (state, action) => {
@@ -261,6 +289,25 @@ export const moviesDBSlice = createSlice({
             state.movies_sect.loading = false;
             state.movies_sect.loaded = true;
             state.movies_sect.error = action.error;
+        }).addCase(getMovieCardInfoFetch.pending, (state, action) => {
+            state.movies_sect.loading = true;
+            state.movies_sect.loaded = false;
+            state.movies_sect.error = false;
+            state.movies_sect.movie_card = [];
+        }).addCase(getMovieCardInfoFetch.fulfilled, (state, action) => {
+            state.movies_sect.loading = false;
+            state.movies_sect.loaded = true;
+            state.movies_sect.error = null;
+            state.movies_sect.movie_card = Object.assign({}, action.payload.data, { isFavorites: false });
+            for (let card of state.movies_sect.favoritesMovies) {
+                if (card.id === state.movies_sect.movie_card.id) {
+                    state.movies_sect.movie_card.isFavorites = true
+                }
+            }
+        }).addCase(getMovieCardInfoFetch.rejected, (state, action) => {
+            state.movies_sect.loading = false;
+            state.movies_sect.loaded = true;
+            state.movies_sect.error = action.error;
             // tv shows
         }).addCase(getTvShowFetch.pending, (state, action) => {
             state.tvShow_sect.loading = true;
@@ -274,9 +321,9 @@ export const moviesDBSlice = createSlice({
             state.tvShow_sect.tvShow = action.payload.data.results.map((value) => Object.assign({}, value, { isFavorites: false }));
             for (let card of state.tvShow_sect.tvShow) {
                 for (let favCard of state.tvShow_sect.favoritesTvShows) {
-                   if(card.id === favCard.id) {
-                    card.isFavorites = true;
-                   }
+                    if (card.id === favCard.id) {
+                        card.isFavorites = true;
+                    }
                 }
             };
             state.tvShow_sect.total_pages = action.payload.data.total_pages;
@@ -297,9 +344,9 @@ export const moviesDBSlice = createSlice({
             state.tvShow_sect.tvShow = action.payload.data.results.map((value) => Object.assign({}, value, { isFavorites: false }));
             for (let card of state.tvShow_sect.tvShow) {
                 for (let favCard of state.tvShow_sect.favoritesTvShows) {
-                   if(card.id === favCard.id) {
-                    card.isFavorites = true;
-                   }
+                    if (card.id === favCard.id) {
+                        card.isFavorites = true;
+                    }
                 }
             };
             state.tvShow_sect.total_pages = action.payload.data.total_pages;
@@ -368,5 +415,5 @@ export const moviesDBSlice = createSlice({
         })
     }
 });
-export const { selectMoviesGenres, getFetchStringID, addToFavoritesMovies, clearSearchResults, addQueryData, addSearchGenres, setAuth, addToFavoritesTvShows } = moviesDBSlice.actions;
+export const { selectMoviesGenres, getFetchStringID, addToFavoritesMovies, clearSearchResults, addQueryData, addSearchGenres, setAuth, addToFavoritesTvShows, isFavoritesCardMovie } = moviesDBSlice.actions;
 export default moviesDBSlice.reducer;

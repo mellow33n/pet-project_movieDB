@@ -1,28 +1,30 @@
-import { useEffect, useState } from "react";
-import NavBar from "../../components/UI/NavBar/NavBar";
-import { getMovieCardInfo } from "../../api/moviedb";
 import "./MovieInfo.scss";
-import GradeOutlinedIcon from '@mui/icons-material/GradeOutlined';
-import GradeRoundedIcon from '@mui/icons-material/GradeRounded';
-import { addToFavoritesMovies } from "../../components/Store/Reducers/moviesSlice";
-import { useDispatch } from "react-redux";
-import  Button  from "@mui/material/Button";
-import { useSelector } from "react-redux";
+import { useEffect } from "react";
+
+import { useDispatch, useSelector } from "react-redux";
+
+import Button from "@mui/material/Button";
+import GradeOutlinedIcon from "@mui/icons-material/GradeOutlined";
+import GradeRoundedIcon from "@mui/icons-material/GradeRounded";
+
+import NavBar from "../../components/UI/NavBar/NavBar";
+import {
+  addToFavoritesMovies,
+  getMovieCardInfoFetch,
+} from "../../components/Store/Reducers/moviesSlice";
+
 
 function MovieInfo() {
-  const {movies, tvshow, search} = useSelector((data) => data);
-  const card_id = (window.location.pathname + "").replace(/[^0-9]/g, "");
-  const [cardInfo, setCardInfo] = useState({});
+  const { movies_sect } = useSelector((data) => data);
+  const card_id = (window.location.pathname + "").replace(/[^0-9]/g, "");;
   const dispatch = useDispatch();
 
   useEffect(() => {
-    getMovieCardInfo(card_id).then((res) => setCardInfo(res.data));
+    dispatch(getMovieCardInfoFetch(card_id));
   }, [card_id]);
 
-  
-
   function handleFavorites(card) {
-    dispatch(addToFavoritesMovies(card))
+    dispatch(addToFavoritesMovies(card));
   }
 
   return (
@@ -31,44 +33,54 @@ function MovieInfo() {
       <section className="card-info">
         <div className="left">
           <img
-            src={"https://image.tmdb.org/t/p/w500" + cardInfo.poster_path}
-            alt={cardInfo.title + " poster"}
+            src={"https://image.tmdb.org/t/p/w500" + movies_sect.movie_card.poster_path}
+            alt={movies_sect.movie_card.title + " poster"}
           />
         </div>
 
         <div className="right">
-            <div className="right-bar">
-                <div className="right-bar-score">
-                    <p>{'score: ' + cardInfo.vote_average + ' / 10'} </p>
-                    <p>{'of ' + cardInfo.vote_count + ' votes'}</p>
-
-                </div>
-                <Button color="warning" startIcon={cardInfo.isFavorites? <GradeRoundedIcon/> : <GradeOutlinedIcon/>} onClick={() => {handleFavorites(cardInfo.id)}}>
-            </Button>
+          <div className="right-bar">
+            <div className="right-bar-score">
+              <p>{"score: " + movies_sect.movie_card.vote_average + " / 10"} </p>
+              <p>{"of " + movies_sect.movie_card.vote_count + " votes"}</p>
             </div>
+            <Button
+              color="warning"
+              startIcon={
+                movies_sect.movie_card.isFavorites ? (
+                  <GradeRoundedIcon />
+                ) : (
+                  <GradeOutlinedIcon />
+                )
+              }
+              onClick={() => {
+                handleFavorites(movies_sect.movie_card);
+              }}
+            ></Button>
+          </div>
           <div className="right-tittle">
-            <h3 className="right-tittle-name">{cardInfo.title}</h3>
-            <h5 className="right-title-sub">{cardInfo.original_title}</h5>
-            <p>{cardInfo.release_date}</p>
-            <p>{cardInfo.tagline}</p>
-            <p>{cardInfo.status}</p>
+            <h3 className="right-tittle-name">{movies_sect.movie_card.title}</h3>
+            <h5 className="right-title-sub">{movies_sect.movie_card.original_title}</h5>
+            <p>{movies_sect.movie_card.release_date}</p>
+            <p>{movies_sect.movie_card.tagline}</p>
+            <p>{movies_sect.movie_card.status}</p>
           </div>
 
           <h5 className="right-title-sub">Overview</h5>
-          <p className="right-overview">{cardInfo.overview}</p>
+          <p className="right-overview">{movies_sect.movie_card.overview}</p>
           <div className="right-info">
             <div className="right-info-genres">
               <h5 className="right-title-sub">Genres</h5>
-              {cardInfo.genres ? (
-                cardInfo.genres.map((value, i) => <p key={i}>{value.name}</p>)
+              {movies_sect.movie_card.genres ? (
+                movies_sect.movie_card.genres.map((value, i) => <p key={i}>{value.name}</p>)
               ) : (
                 <p></p>
               )}
             </div>
             <div className="right-info-companies">
               <h5 className="right-title-sub">Production companies</h5>
-              {cardInfo.production_companies ? (
-                cardInfo.production_companies.map((value, i) => (
+              {movies_sect.movie_card.production_companies ? (
+                movies_sect.movie_card.production_companies.map((value, i) => (
                   <p key={i}>{value.name}</p>
                 ))
               ) : (
