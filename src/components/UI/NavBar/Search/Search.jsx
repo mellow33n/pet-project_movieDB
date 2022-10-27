@@ -8,8 +8,10 @@ import TextField from "@mui/material/TextField";
 import Autocomplete from "@mui/material/Autocomplete";
 import CircularProgress from "@mui/material/CircularProgress";
 import { Button } from "@mui/material";
-
-import { getSearchFetch, addQueryData } from "../../../Store/Reducers/moviesSlice";
+import {
+  getSearchFetch,
+  addQueryData,
+} from "../../../Store/Reducers/moviesSlice";
 
 export default function SearchBar() {
   const { search_sect } = useSelector((data) => data);
@@ -17,27 +19,29 @@ export default function SearchBar() {
   const navigate = useNavigate();
 
   function handleChange(event) {
-    const value = event.target.value
+    const value = event.target.value;
     event.preventDefault();
-    dispatch(getSearchFetch({value}));
-    dispatch(addQueryData(event.target.value));
+    const valueForIF = value.replaceAll(/[^a-z0-9]/gi,'');
+    if (valueForIF) {
+      dispatch(getSearchFetch({ value }));
+      dispatch(addQueryData(value));
+    }
   }
 
- /*  function closeSearch() {
-    dispatch(clearSearchResults());
-  } */
-
-  function handleSubmit(event) {
-    event.preventDefault();
-    navigate('/searchResults');
+  function handleSubmit(e) {
+    e.preventDefault();
+    const value = e.nativeEvent.path[0][0].value;
+    const valueForIF = value.replaceAll(/[^a-z0-9]/gi,'');
+    if (valueForIF) {
+      navigate("/searchResults");
+    }
   }
 
   return (
-    <form action="" className="search-form">
+    <form action="" className="search-form" onSubmit={(e) => handleSubmit(e)}>
       <Autocomplete
         id="asynchronous-demo"
         sx={{ width: "100%" }}
- 
         isOptionEqualToValue={(option, value) =>
           option.title === value.title || option.name === value.name
         }
@@ -63,8 +67,8 @@ export default function SearchBar() {
           />
         )}
       />
-      <Button variant="contained" color="primary" onClick={handleSubmit} type='submit'>
-            Search
+      <Button variant="contained" color="primary" type="submit">
+        Search
       </Button>
     </form>
   );
