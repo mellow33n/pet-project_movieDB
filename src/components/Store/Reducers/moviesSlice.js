@@ -52,6 +52,10 @@ export const getTvGenresFetch = createAsyncThunk('tvShow/getTvGenresFetch', asyn
     const data = await getTvGenres();
     return data;
 });
+export const getTvShowCardInfoFetch = createAsyncThunk('movies/getTvShowCardInfoFetch', async (id) => {
+    const data = await getTvShowCardInfo(id);
+    return data;
+});
 
 // search
 
@@ -88,6 +92,7 @@ export const moviesDBSlice = createSlice({
             loading: false,
             error: null,
             genres: [],
+            tvShow_card: [],
         },
         search_sect: {
             results: [],
@@ -159,13 +164,6 @@ export const moviesDBSlice = createSlice({
                 state.movies_sect.movie_card.isFavorites = !state.movies_sect.movie_card.isFavorites
             }
         },
-        isFavoritesCardMovie: (state, action) => {
-            const card = { ...action.payload };
-            card.isFavorites = 0;
-            // проверяю есть ли карточка в массиве избранных фильмов
-            state.movies_sect.favoritesMovies.map((value) => value.id === card.id ? card.isFavorites += 1 : card.isFavorites += 0);
-            console.log(card.isFavorites);
-        },
         // tv shows
         addToFavoritesTvShows: (state, action) => {
             const card = { ...action.payload };
@@ -205,6 +203,10 @@ export const moviesDBSlice = createSlice({
                 }
             } else {
                 state.search_sect.favorites.tvShow.push(card);
+            }
+            /* CARD-INFO */
+            if (card.id === state.tvShow_sect.tvShow_card.id) {
+                state.tvShow_sect.tvShow_card.isFavorites = !state.tvShow_sect.tvShow_card.isFavorites
             }
         },
         // search
@@ -369,12 +371,31 @@ export const moviesDBSlice = createSlice({
             state.tvShow_sect.loading = false;
             state.tvShow_sect.loaded = true;
             state.tvShow_sect.error = action.error;
+        }).addCase(getTvShowCardInfoFetch.pending, (state, action) => {
+            state.tvShow_sect.loading = true;
+            state.tvShow_sect.loaded = false;
+            state.tvShow_sect.error = false;
+            state.tvShow_sect.tvShow_card = [];
+        }).addCase(getTvShowCardInfoFetch.fulfilled, (state, action) => {
+            state.tvShow_sect.loading = false;
+            state.tvShow_sect.loaded = true;
+            state.tvShow_sect.error = null;
+            state.tvShow_sect.tvShow_card = Object.assign({}, action.payload.data, { isFavorites: false });
+            for (let card of state.tvShow_sect.favoritesTvShows) {
+                if (card.id === state.tvShow_sect.tvShow_card.id) {
+                    state.tvShow_sect.tvShow_card.isFavorites = true
+                }
+            }
+        }).addCase(getTvShowCardInfoFetch.rejected, (state, action) => {
+            state.tvShow_sect.loading = false;
+            state.tvShow_sect.loaded = true;
+            state.tvShow_sect.error = action.error;
+            // search
         }).addCase(getSearchFetch.pending, (state, action) => {
             state.search_sect.loading = true;
             state.search_sect.loaded = false;
             state.search_sect.error = false;
             state.search_sect.results = [];
-            // search
         }).addCase(getSearchFetch.fulfilled, (state, action) => {
             state.search_sect.loading = false;
             state.search_sect.loaded = true;
@@ -415,5 +436,5 @@ export const moviesDBSlice = createSlice({
         })
     }
 });
-export const { selectMoviesGenres, getFetchStringID, addToFavoritesMovies, clearSearchResults, addQueryData, addSearchGenres, setAuth, addToFavoritesTvShows, isFavoritesCardMovie } = moviesDBSlice.actions;
+export const { selectMoviesGenres, getFetchStringID, addToFavoritesMovies, clearSearchResults, addQueryData, addSearchGenres, setAuth, addToFavoritesTvShows } = moviesDBSlice.actions;
 export default moviesDBSlice.reducer;
