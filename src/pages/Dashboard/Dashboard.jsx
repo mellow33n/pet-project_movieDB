@@ -3,7 +3,7 @@ import "./Dashboard.scss";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux/es/exports";
 
-import NavBar from "../../components/UI/NavBar/NavBar";
+
 
 import {
   getMoviesFetch,
@@ -26,7 +26,7 @@ function Dashboard() {
 
   return (
     <>
-      <NavBar />
+      
       <main className="main">
         <section className="bar-movies">
           <h2>Watch the movies</h2>

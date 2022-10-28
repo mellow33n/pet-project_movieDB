@@ -7,7 +7,7 @@ import Button from "@mui/material/Button";
 import GradeOutlinedIcon from "@mui/icons-material/GradeOutlined";
 import GradeRoundedIcon from "@mui/icons-material/GradeRounded";
 
-import NavBar from "../../components/UI/NavBar/NavBar";
+
 import {
   addToFavoritesMovies,
   getMovieCardInfoFetch,
@@ -28,7 +28,7 @@ function MovieInfo() {
 
   return (
     <>
-      <NavBar />
+      
       <section className="card-info">
         <div className="left">
           <img

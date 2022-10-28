@@ -3,7 +3,7 @@ import './Movies.scss';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux/es/exports';
 
-import NavBar from '../../components/UI/NavBar/NavBar';
+
 import { getMoviesFetch } from '../../components/Store/Reducers/moviesSlice';
 import CardList from '../../components/CardList/CardList';
 import MoviesPagination from '../../components/UI/Pagination/Pagination';
@@ -26,7 +26,7 @@ function Movies() {
   }
 
   return (<>
-    <NavBar />
+    
     <div className="pagination">
     <MoviesPagination count={movies_sect.total_pages} page={movies_sect.page_num} changePage={changePage} size='large'/>
     </div>

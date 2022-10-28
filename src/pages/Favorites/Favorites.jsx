@@ -7,7 +7,7 @@ import Tab from "@mui/material/Tab";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 
-import NavBar from "../../components/UI/NavBar/NavBar";
+
 import CardList from "../../components/CardList/CardList";
 
 function TabPanel(props) {
@@ -53,7 +53,7 @@ export default function Favorites() {
 
   return (
     <>
-      <NavBar />
+      
       <Box sx={{ width: "100%" }}>
         <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
           <Tabs

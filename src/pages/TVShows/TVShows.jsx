@@ -3,7 +3,7 @@ import "./Movies.scss";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux/es/exports";
 
-import NavBar from "../../components/UI/NavBar/NavBar";
+
 import { getTvShowFetch } from "../../components/Store/Reducers/moviesSlice";
 import CardList from "../../components/CardList/CardList";
 import MoviesPagination from "../../components/UI/Pagination/Pagination";
@@ -22,7 +22,7 @@ function TvShows() {
 
   return (
     <>
-      <NavBar />
+      
       <div className="pagination">
         <MoviesPagination
           count={tvShow_sect.total_pages}

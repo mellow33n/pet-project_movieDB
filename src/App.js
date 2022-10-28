@@ -1,8 +1,11 @@
 import { Provider } from "react-redux";
 import { BrowserRouter } from "react-router-dom";
+
+import { createTheme, ThemeProvider } from '@mui/material/styles';
+
 import RoutesList from "./routes/RoutesList";
 import { store } from "./components/Store/store";
-import { createTheme, ThemeProvider } from '@mui/material/styles';
+import NavBar from "./components/UI/NavBar/NavBar";
 
 const theme = createTheme({
   palette: {
@@ -20,6 +23,7 @@ function App() {
     <ThemeProvider theme={theme}>
       <Provider store={store}>
         <BrowserRouter>
+          <NavBar />
           <RoutesList />
         </BrowserRouter>
       </Provider>

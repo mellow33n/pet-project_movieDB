@@ -2,7 +2,7 @@ import "../Movies/Movies.scss";
 
 import { useDispatch, useSelector } from "react-redux/es/exports";
 
-import NavBar from "../../components/UI/NavBar/NavBar";
+
 import CardList from "../../components/CardList/CardList";
 import MoviesPagination from "../../components/UI/Pagination/Pagination";
 import { getSearchFetch } from "../../components/Store/Reducers/moviesSlice";
@@ -18,7 +18,7 @@ function SearchResults() {
 
   return (
     <>
-      <NavBar />
+      
       <div className="pagination">
         <MoviesPagination
           count={search_sect.total_pages}

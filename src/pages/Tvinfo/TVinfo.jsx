@@ -8,7 +8,7 @@ import Button from "@mui/material/Button";
 import GradeOutlinedIcon from "@mui/icons-material/GradeOutlined";
 import GradeRoundedIcon from "@mui/icons-material/GradeRounded";
 
-import NavBar from "../../components/UI/NavBar/NavBar";
+
 import {
   getTvShowCardInfoFetch,
   addToFavoritesTvShows,
@@ -29,7 +29,7 @@ function TvShowInfo() {
 
   return (
     <>
-      <NavBar />
+      
       <section className="card-info">
         <div className="left">
           <img
