@@ -3,7 +3,7 @@ import "./Dashboard.scss";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux/es/exports";
 
-
+import { CircularProgress } from "@mui/material";
 
 import {
   getMoviesFetch,
@@ -26,7 +26,6 @@ function Dashboard() {
 
   return (
     <>
-      
       <main className="main">
         <section className="bar-movies">
           <h2>Watch the movies</h2>
@@ -34,7 +33,8 @@ function Dashboard() {
             cards={movies_sect.movies}
             dashboard={true}
             dataFrom="movie"
-          ></CardList>
+          >
+          </CardList>
         </section>
         <section className="bar-movies">
           <h2>Watch the popular tv-shows</h2>
@@ -42,7 +42,8 @@ function Dashboard() {
             cards={tvShow_sect.tvShow}
             dashboard={true}
             dataFrom="tv"
-          ></CardList>
+          >
+          </CardList>
         </section>
       </main>
     </>

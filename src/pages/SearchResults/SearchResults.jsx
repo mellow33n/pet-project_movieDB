@@ -2,6 +2,7 @@ import "../Movies/Movies.scss";
 
 import { useDispatch, useSelector } from "react-redux/es/exports";
 
+import CircularProgress from "@mui/material/CircularProgress";
 
 import CardList from "../../components/CardList/CardList";
 import MoviesPagination from "../../components/UI/Pagination/Pagination";
@@ -18,7 +19,6 @@ function SearchResults() {
 
   return (
     <>
-      
       <div className="pagination">
         <MoviesPagination
           count={search_sect.total_pages}
@@ -28,6 +28,9 @@ function SearchResults() {
         />
       </div>
       <div className="card-list-wrapper">
+        {search_sect.loading ? (
+          <CircularProgress color="inherit" size={20} />
+        ) : null}
         <CardList cards={search_sect.results} dataFrom="search"></CardList>
       </div>
     </>

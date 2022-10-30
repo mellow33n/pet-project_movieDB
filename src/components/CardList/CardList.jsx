@@ -13,6 +13,8 @@ import Typography from "@mui/material/Typography";
 import { Button, CardActionArea } from "@mui/material";
 import GradeOutlinedIcon from "@mui/icons-material/GradeOutlined";
 import GradeRoundedIcon from "@mui/icons-material/GradeRounded";
+import { CircularProgressbar, buildStyles } from "react-circular-progressbar";
+import "react-circular-progressbar/dist/styles.css";
 
 import {
   addToFavoritesMovies,
@@ -84,7 +86,7 @@ function CardList({ cards, dashboard = false, dataFrom }) {
         }
       >
         {cards.map((card, index) => (
-          <Grid item xs={2} sm={4} md={2} key={index + Math.random()}>
+          <Grid item xs={2} sm={4} md={2} key={card.id} sx={{position: 'relative'}}>
             <Button
               color="warning"
               startIcon={
@@ -94,6 +96,33 @@ function CardList({ cards, dashboard = false, dataFrom }) {
                 handleFavorites(card, dataFrom);
               }}
             ></Button>
+            <div
+              style={{
+                width: 50,
+                height: 50,
+                fontSize: 12,
+                position: "absolute",
+                left: "63%",
+                bottom: "83%",
+                zIndex: 1,
+              }}
+            >
+              <CircularProgressbar
+                value={card.vote_average}
+                text={`${card.vote_average}`}
+                background
+                backgroundPadding={6}
+                maxValue={10}
+                styles={buildStyles({
+                  backgroundColor: "#00203F",
+                  textColor: "#fff",
+                  pathColor: "#fff",
+                  trailColor: "transparent",
+                  fontSize: "10",
+                  textSize: '2rem',
+                })}
+              />
+            </div>
             <Card
               sx={{ maxWidth: 200 }}
               onClick={() => {

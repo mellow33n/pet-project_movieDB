@@ -19,12 +19,13 @@ export default function SearchBar() {
   const navigate = useNavigate();
 
   function handleChange(event) {
-    const value = event.target.value;
     event.preventDefault();
+    const value = event.target.value;
     const valueForIF = value.replaceAll(/[^a-z0-9]/gi,'');
     if (valueForIF) {
       dispatch(getSearchFetch({ value }));
       dispatch(addQueryData(value));
+      event.target.value = '';
     }
   }
 
@@ -37,8 +38,13 @@ export default function SearchBar() {
     }
   }
 
+  function onClose (event, reason) {
+    event.preventDefault();
+    event.target.value = ''
+  }
+
   return (
-    <form action="" className="search-form" onSubmit={(e) => handleSubmit(e)}>
+    <form action="" className="search-form" onSubmit={handleSubmit}>
       <Autocomplete
         id="asynchronous-demo"
         sx={{ width: "100%" }}
@@ -48,6 +54,7 @@ export default function SearchBar() {
         getOptionLabel={(option) => option.name || option.title}
         options={search_sect.results}
         loading={search_sect.loading}
+        clearOnBlur={false}
         renderInput={(params) => (
           <TextField
             {...params}
@@ -57,9 +64,6 @@ export default function SearchBar() {
               ...params.InputProps,
               endAdornment: (
                 <Fragment>
-                  {search_sect.loading ? (
-                    <CircularProgress color="inherit" size={20} />
-                  ) : null}
                   {params.InputProps.endAdornment}
                 </Fragment>
               ),
