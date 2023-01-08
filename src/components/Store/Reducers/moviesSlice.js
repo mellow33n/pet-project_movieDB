@@ -111,6 +111,11 @@ export const moviesDBSlice = createSlice({
                 tvShow: [],
             },
         },
+        user_data: {
+            loged: false,
+            login: null,
+            
+        },
     },
     reducers: {
         // movies

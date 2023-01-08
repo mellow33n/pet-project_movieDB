@@ -1,11 +1,14 @@
 import "./Login.scss";
 import { useNavigate } from "react-router-dom";
+import { useState } from "react";
+
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 
 function Login() {
   const navigate = useNavigate();
-  localStorage.setItem("AUTH_TOKEN", "qwerty");
+  const [error, setError] = useState(false);
+  
 
   function handleSubmit(event) {
     localStorage.setItem("AUTH_TOKEN", "qwerty");
@@ -13,7 +16,6 @@ function Login() {
     navigate("/");
   }
   function handleRegistration(event) {
-    localStorage.setItem("AUTH_TOKEN", "qwerty");
     event.preventDefault();
     navigate("/registration");
   }
@@ -34,7 +36,6 @@ function Login() {
         type="password"
         autoComplete="current-password"
         color="primary"
-        
       />
       <div className="login-buttons">
         <div className="btn-reg">

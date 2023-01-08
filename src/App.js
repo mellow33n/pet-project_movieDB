@@ -19,11 +19,12 @@ const theme = createTheme({
 });
 
 function App() {
+  const TOKEN = localStorage.getItem("AUTH_TOKEN");
   return (
     <ThemeProvider theme={theme}>
       <Provider store={store}>
         <BrowserRouter>
-          <NavBar />
+          {TOKEN ? <NavBar /> : null}
           <RoutesList />
         </BrowserRouter>
       </Provider>

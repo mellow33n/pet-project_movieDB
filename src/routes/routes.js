@@ -14,7 +14,8 @@ const CardInfo = lazy(() => import("../pages/MovieInfo/MovieInfo"));
 const searchResults = lazy(() => import("../pages/SearchResults/SearchResults"));
 
 function getComponent(Component) {
-  const TOKEN = localStorage.getItem("AUTH_TOKEN");
+  /* const TOKEN = localStorage.getItem("AUTH_TOKEN"); */
+  const TOKEN = true; 
   return TOKEN ? (
     <Suspense>
       <Component />

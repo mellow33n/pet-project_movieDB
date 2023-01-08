@@ -1,4 +1,5 @@
 import * as React from "react";
+import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux/es/exports";
 
 import PropTypes from "prop-types";
@@ -6,7 +7,7 @@ import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
-
+import Button from "@mui/material/Button";
 
 import CardList from "../../components/CardList/CardList";
 
@@ -50,10 +51,10 @@ export default function Favorites() {
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
+  const navigate = useNavigate();
 
   return (
     <>
-      
       <Box sx={{ width: "100%" }}>
         <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
           <Tabs
@@ -67,10 +68,23 @@ export default function Favorites() {
           </Tabs>
         </Box>
         <TabPanel value={value} index={0}>
-          <CardList
-            cards={movies_sect.favoritesMovies}
-            dataFrom="movie"
-          ></CardList>
+          {movies_sect.favoritesMovies.length ? (
+            <CardList
+              cards={movies_sect.favoritesMovies}
+              dataFrom="movie"
+            ></CardList>
+          ) : (
+            <Typography
+              component={"span"}
+              variant={"body2"}
+              className="no-data"
+            >
+              there are no movies added yet, you can choose{" "}
+              <Button onClick={() => navigate("/movies")} variant="contained">
+                here
+              </Button>
+            </Typography>
+          )}
         </TabPanel>
         <TabPanel value={value} index={1}>
           <CardList

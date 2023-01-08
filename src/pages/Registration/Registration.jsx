@@ -11,7 +11,6 @@ function Registration() {
 
   function handleSubmit(event) {
     event.preventDefault();
-    localStorage.setItem("AUTH_TOKEN", "true");
     const usernameValue = event.nativeEvent.path[1][4].value;
     const regExpUsername = /^([a-z0-9]|[-._](?![-._])){2,20}$/;
     if (regExpUsername.test(usernameValue)) {
