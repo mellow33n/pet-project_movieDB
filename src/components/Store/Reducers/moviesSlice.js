@@ -114,7 +114,8 @@ export const moviesDBSlice = createSlice({
         user_data: {
             loged: false,
             login: null,
-            
+            password: null,
+
         },
     },
     reducers: {
@@ -223,6 +224,20 @@ export const moviesDBSlice = createSlice({
         },
         setAuth: (state, action) => {
             state.search_sect.auth = true;
+        },
+
+        // login
+
+        setUsername: (state, action) => {
+
+            state.user_data.login = action.payload;
+        },
+        setPassword: (state, action) => {
+
+            state.user_data.password = action.payload;
+        },
+        isLogged: (state, action) => {
+            state.user_data.loged = action.payload;
         },
     },
     extraReducers: (builder) => {
@@ -441,5 +456,5 @@ export const moviesDBSlice = createSlice({
         })
     }
 });
-export const { selectMoviesGenres, getFetchStringID, addToFavoritesMovies, clearSearchResults, addQueryData, addSearchGenres, setAuth, addToFavoritesTvShows } = moviesDBSlice.actions;
+export const { selectMoviesGenres, getFetchStringID, addToFavoritesMovies, clearSearchResults, addQueryData, addSearchGenres, setAuth, addToFavoritesTvShows, setUsername, setPassword, isLogged } = moviesDBSlice.actions;
 export default moviesDBSlice.reducer;

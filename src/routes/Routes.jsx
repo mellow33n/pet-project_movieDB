@@ -1,5 +1,6 @@
-import { Navigate } from "react-router-dom";
 import { lazy, Suspense } from "react";
+import GetComponent from "./GetComponent";
+
 
 
 const Dashboard = lazy(() => import("../pages/Dashboard/Dashboard"));
@@ -13,22 +14,12 @@ const Movies = lazy(() => import("../pages/Movies/Movies"));
 const CardInfo = lazy(() => import("../pages/MovieInfo/MovieInfo"));
 const searchResults = lazy(() => import("../pages/SearchResults/SearchResults"));
 
-function getComponent(Component) {
-  /* const TOKEN = localStorage.getItem("AUTH_TOKEN"); */
-  const TOKEN = true; 
-  return TOKEN ? (
-    <Suspense>
-      <Component />
-    </Suspense>
-  ) : (
-    <Navigate to="/login" />
-  );
-}
 
-export const routes = [
+ function Routes () {
+  return [
   {
     path: "/",
-    element: getComponent(Dashboard),
+    element: GetComponent(Dashboard),
   },
   {
     path: "login",
@@ -48,31 +39,31 @@ export const routes = [
   },
   {
     path: "tv-shows",
-    element: getComponent(TVShows),
+    element: GetComponent(TVShows),
   },
   { 
     path: "tv-shows/:id", 
-    element: getComponent(TVShowInfo) 
+    element: GetComponent(TVShowInfo) 
   },
   { 
     path: "movies/:id", 
-    element: getComponent(CardInfo) 
+    element: GetComponent(CardInfo) 
   },
   { 
     path: "movies", 
-    element: getComponent(Movies) 
+    element: GetComponent(Movies) 
   },
   { 
     path: "searchResults/:id", 
-    element: getComponent(CardInfo) 
+    element: GetComponent(CardInfo) 
   },
   { 
     path: "searchResults", 
-    element: getComponent(searchResults) 
+    element: GetComponent(searchResults) 
   },
   { 
     path: "favorites", 
-    element: getComponent(Favorites) 
+    element: GetComponent(Favorites) 
   },
   {
     path: "*",
@@ -82,4 +73,6 @@ export const routes = [
       </Suspense>
     ),
   },
-];
+]};
+
+export default Routes

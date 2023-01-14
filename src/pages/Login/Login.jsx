@@ -1,19 +1,36 @@
 import "./Login.scss";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 
+import { isLogged } from "../../components/Store/Reducers/moviesSlice";
+
+
 function Login() {
   const navigate = useNavigate();
   const [error, setError] = useState(false);
+  const { user_data } = useSelector((data) => data);
+  const dispatch = useDispatch()
   
 
   function handleSubmit(event) {
-    localStorage.setItem("AUTH_TOKEN", "qwerty");
     event.preventDefault();
-    navigate("/");
+    const inputsData = {
+      login: event.nativeEvent.path[3][0].value,
+      password: event.nativeEvent.path[3][2].value,
+    }
+
+    if (user_data.login === inputsData.login && user_data.password === inputsData.password) {
+      navigate("/");
+      dispatch(isLogged(true));
+    } else {
+      setError(true);
+    }
+
+    
   }
   function handleRegistration(event) {
     event.preventDefault();
@@ -23,6 +40,21 @@ function Login() {
   return (
     <form className="login-form">
       <h3>Enter your login and password please</h3>
+      {error ? <>
+      <TextField
+        error
+        id="outlined-required"
+        label="Email or username"
+        helperText='Check username to be correct or registration a new'
+      />
+      <TextField
+        error
+        id="outlined-password-input"
+        label="Password"
+        type="password"
+        autoComplete="current-password"
+        helperText='Password is not correct'
+      /></> : <>
       <TextField
         required
         id="outlined-required"
@@ -36,7 +68,8 @@ function Login() {
         type="password"
         autoComplete="current-password"
         color="primary"
-      />
+      /></>}
+      
       <div className="login-buttons">
         <div className="btn-reg">
           <p>

@@ -1,23 +1,47 @@
 import "./Registration.scss";
+
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import MenuItem from "@mui/material/MenuItem";
-import { useState } from "react";
+
+import {
+  setUsername,
+  setPassword,
+} from "../../components/Store/Reducers/moviesSlice";
 
 function Registration() {
   const navigate = useNavigate();
-  const [error, setError] = useState(false);
+  const [errorName, setErrorName] = useState(false);
+  const [errorPwd, setErrorPwd] = useState(false);
+  const dispatch = useDispatch();
 
   function handleSubmit(event) {
     event.preventDefault();
     const usernameValue = event.nativeEvent.path[1][4].value;
+    const pwdValue = event.nativeEvent.path[1][12].value;
+    const pwdConfirmValue = event.nativeEvent.path[1][14].value;
     const regExpUsername = /^([a-z0-9]|[-._](?![-._])){2,20}$/;
+
+
+
     if (regExpUsername.test(usernameValue)) {
-      navigate("/login");
+      dispatch(setUsername(usernameValue));
+      if (pwdValue === pwdConfirmValue) {
+        dispatch(setPassword(pwdValue));
+        navigate("/login");
+      } else {
+
+        setErrorPwd(true);
+      }
     } else {
-      setError(true);
+
+      setErrorName(true);
     }
+
   }
 
   const genders = [
@@ -53,13 +77,13 @@ function Registration() {
           label="Second name"
           color="primary"
         />
-        {error ? (
+        {errorName ? (
           <TextField
-          error
-          id="outlined-error-helper-text"
-          label="Username"
-          helperText='The username must start with a lowercase letter and contain only letters, numbers or special characters "dot" or "underscore" (.or_)'
-        />
+            error
+            id="outlined-error-helper-text"
+            label="Username"
+            helperText='The username must start with a lowercase letter and contain only letters, numbers or special characters "dot" or "underscore" (.or_)'
+          />
         ) : (
           <TextField
             required
@@ -78,7 +102,7 @@ function Registration() {
         <TextField
           id="outlined-select-currency"
           select
-          label="Select"
+          label="Select gender"
           value={gender}
           onChange={handleChange}
         >
@@ -95,20 +119,42 @@ function Registration() {
           color="primary"
           type="email"
         />
-        <TextField
-          required
-          id="outlined-password-input"
-          label="Password"
-          type="password"
-          color="primary"
-        />
-        <TextField
-          required
-          id="outlined-confirmPassword-input"
-          label="Confirm password"
-          type="password"
-          color="primary"
-        />
+        {errorPwd ? (
+          <>
+            <TextField
+              error
+              id="outlined-password-input"
+              label="Password"
+              type="password"
+              helperText="Password and confirm password data must be the same"
+            />
+            <TextField
+              error
+              id="outlined-confirmPassword-input"
+              label="Confirm password"
+              type="password"
+              helperText="Password and confirm password data must be the same"
+            />
+          </>
+        ) : (
+          <>
+            <TextField
+              required
+              id="outlined-password-input"
+              label="Password"
+              type="password"
+              color="primary"
+            />
+            <TextField
+              required
+              id="outlined-confirmPassword-input"
+              label="Confirm password"
+              type="password"
+              color="primary"
+            />
+          </>
+        )}
+
         <Button
           variant="contained"
           color="primary"
