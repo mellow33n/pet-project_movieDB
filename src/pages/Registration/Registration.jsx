@@ -20,18 +20,28 @@ function Registration() {
   const dispatch = useDispatch();
 
   function handleSubmit(event) {
+ 
     event.preventDefault();
-    const usernameValue = event.nativeEvent.path[1][4].value;
-    const pwdValue = event.nativeEvent.path[1][12].value;
-    const pwdConfirmValue = event.nativeEvent.path[1][14].value;
+    const formValues = {
+      firstName: event.target.form[0].value,
+      secondName: event.target.form[2].value,
+      userName: event.target.form[4].value,
+      birthDate: event.target.form[6].value,
+      gender: event.target.form[8].value,
+      email: event.target.form[10].value,
+      password: event.target.form[12].value,
+      confirmPassword: event.target.form[14].value,
+
+    }
+    console.log(formValues);
     const regExpUsername = /^([a-z0-9]|[-._](?![-._])){2,20}$/;
 
 
 
-    if (regExpUsername.test(usernameValue)) {
-      dispatch(setUsername(usernameValue));
-      if (pwdValue === pwdConfirmValue) {
-        dispatch(setPassword(pwdValue));
+    if (regExpUsername.test(formValues.userName)) {
+      dispatch(setUsername(formValues.userName));
+      if (formValues.password === formValues.confirmPassword) {
+        dispatch(setPassword(formValues.password));
         navigate("/login");
       } else {
 

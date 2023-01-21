@@ -19,8 +19,8 @@ function Login() {
   function handleSubmit(event) {
     event.preventDefault();
     const inputsData = {
-      login: event.nativeEvent.path[3][0].value,
-      password: event.nativeEvent.path[3][2].value,
+      login: event.target.form[0].value,
+      password: event.target.form[2].value,
     }
 
     if (user_data.login === inputsData.login && user_data.password === inputsData.password) {
